@@ -6,44 +6,33 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:34:40 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/19 13:49:24 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/19 18:09:33 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_philo	*create_philo(int size, int indice)
+void	philo(char **av)
 {
-	t_philo	*philo;
+	t_data	data;
+	int	indice;
 
-	philo = NULL;
-	if (size > 0)
-	{
-		philo = malloc(sizeof(t_philo));
-		if (!philo)
-			return (NULL);
-		philo->indice = indice;
-		philo->left = 0;
-		philo->right = 0;
-		philo->next = create_philo(size - 1, indice + 1);
-		if (philo->next == NULL && (size -1) > 0)
-			return (free(philo), NULL);
-	}
-	return (philo);
-}
-
-void	philo()
-{
-	
+	data = (t_data){};
+	indice = 1;
+	data.fork = create_fork(atoi(av[1]), indice);
+	data.philo = create_philo(&data, atoi(av[1]), indice);
+	thread_end(&data);
 }
 
 int main (int ac, char **av)
 {
-	(void)av;
 	if (ac < 5)
 	{
 		printf("Wrong number of args, please use philo as: ");
-		printf("./philo number_philosophers time_to_die time_to_eat time_to_sleep\n");
+		printf("./philo number_of_philosophers time_to_die ");
+		printf("time_to_eat time_to_sleep\n");
 		return (0);
 	}
+	else
+		philo(av);
 }

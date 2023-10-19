@@ -5,14 +5,24 @@ CC = gcc
 
 AR = ar rcs
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 
-SRC = ./src/philo.c \
+PTHREAD = -pthread
 
-OBJ = $(SRC:.c=.o)
+SRC = src/
+
+THREAD = thread/
+
+MUTEX = mutex/
+
+SRCS = $(SRC)philo.c \
+	$(SRC)$(THREAD)thread.c \
+	$(SRC)$(MUTEX)mutex.c \
+
+OBJ = $(SRCS:.c=.o)
 
 $(NAME) : $(OBJ)
-		$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+		$(CC) $(PTHREAD) $(CFLAGS) $(OBJ) -o $(NAME)
 
 all : $(NAME)
 
