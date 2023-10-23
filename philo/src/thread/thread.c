@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:03:27 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/23 16:57:08 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:30:19 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_philo	*create_philo(t_data *data, int size, int indice)
 		philo = malloc(sizeof(t_philo));
 		if (!philo)
 			return (NULL);
-		if (pthread_create(&philo->tid, NULL, thread_routine, data) != 0)
+		if (pthread_create(&philo->tid, NULL, thread_routine,
+				(void *)data) != 0)
 			exit(0);
 		philo->indice = indice;
 		philo->alive = 1;
@@ -33,12 +34,24 @@ t_philo	*create_philo(t_data *data, int size, int indice)
 	return (philo);
 }
 
-	//On check a la fin et si il meurt on le tue et on dit qu'il est mort,
-	//on modifie la valeur data->philo->alive a 0
-void	*thread_routine(void *data)
+	//Il faut : -gerer les fourchettes
+	// -Faire un checker qui verifie si il faut les tuer
+	// -Faire en sorte que les actions se refassent tant qu'ils ne sont pas morts
+	// -Ajouter la possibilite de manger un certain nombre de fois max avant de quitter
+	// On check a la fin et si il meurt on le tue et on dit qu'il est mort,
+	// On modifie la valeur data->philo->alive a 0
+void	*thread_routine(void *my_data)
 {
-	data = (t_data *)data;
+	t_data			*data;
+	struct timeval	actualtime;
+
+	data = (t_data *)my_data;
+	philo_sleep(data);
 	printf("Je fonctionne\n");
+	gettimeofday(&actualtime, NULL);
+	if (data->time_die.tv_usec
+		<= (actualtime.tv_usec - data->start_time.tv_usec))
+		return (NULL);
 	return (NULL);
 }
 

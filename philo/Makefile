@@ -20,6 +20,7 @@ VERIF = verif/
 SRCS = $(SRC)philo.c \
 	$(SRC)$(THREAD)thread.c \
 	$(SRC)$(THREAD)time.c \
+	$(SRC)$(THREAD)action.c \
 	$(SRC)$(MUTEX)mutex.c \
 	$(SRC)$(VERIF)arg_verif.c \
 	$(SRC)$(VERIF)convert.c \
