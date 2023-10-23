@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:34:40 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/23 15:38:06 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:46:40 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	philo(char **av)
 {
 	t_data	data;
-	int	indice;
+	int		indice;
 
 	data = (t_data){};
 	indice = 1;
@@ -28,13 +28,14 @@ void	philo(char **av)
 	thread_end(&data);
 }
 
-int main (int ac, char **av)
+int	main(int ac, char **av)
 {
 	if (ac < 5)
 	{
 		printf("Wrong number of args, please use philo as: ");
 		printf("./philo number_of_philosophers time_to_die ");
-		printf("time_to_eat time_to_sleep\n");
+		printf("time_to_eat time_to_sleep ");
+		printf("[number_of_time_a_philosopher_should_eat]\n");
 		return (0);
 	}
 	else

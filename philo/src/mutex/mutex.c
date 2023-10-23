@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:18:19 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/19 17:55:56 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:52:29 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_fork	*create_fork(int size, int indice)
 {
-	t_fork	*fork;
-	pthread_mutex_t mutex;
-	
+	t_fork			*fork;
+	pthread_mutex_t	mutex;
+
 	fork = NULL;
 	if (size > 0)
 	{
