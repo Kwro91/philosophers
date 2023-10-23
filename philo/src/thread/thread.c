@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:03:27 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/19 18:35:46 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:53:07 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_philo	*create_philo(t_data *data, int size, int indice)
 		philo = malloc(sizeof(t_philo));
 		if (!philo)
 			return (NULL);
-		if (pthread_create(&philo->tid, NULL, thread_routine, &data) != 0)
+		if (pthread_create(&philo->tid, NULL, thread_routine, data) != 0)
 			exit(0);
 		philo->indice = indice;
 		philo->alive = 1;
@@ -35,11 +35,8 @@ t_philo	*create_philo(t_data *data, int size, int indice)
 
 void	*thread_routine(void *data)
 {
-	struct timeval start_time;
-	
-	gettimeofday(&start_time, NULL);
-	//start_time.tv_sec // start_time.tv_usec pour avoir le temps actuel, faut le refaire et le soustraire pour avor la bonne value
 	data = (t_data *)data;
+	//start_time.tv_sec // start_time.tv_usec pour avoir le temps actuel, faut le refaire et le soustraire pour avor la bonne value
 	printf("Je fonctionne\n");
 	//On check a la fin et si il meurt on le tue et on dit qu'il est mort, on modifie la valeur data->philo->alive a 0
 	//Comme ca on saura lequel est mort en premier et on evitera de le pthread_join apres

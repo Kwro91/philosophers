@@ -15,9 +15,14 @@ THREAD = thread/
 
 MUTEX = mutex/
 
+VERIF = verif/
+
 SRCS = $(SRC)philo.c \
 	$(SRC)$(THREAD)thread.c \
+	$(SRC)$(THREAD)time.c \
 	$(SRC)$(MUTEX)mutex.c \
+	$(SRC)$(VERIF)arg_verif.c \
+	$(SRC)$(VERIF)convert.c \
 
 OBJ = $(SRCS:.c=.o)
 
