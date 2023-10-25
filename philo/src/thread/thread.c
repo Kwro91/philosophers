@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:03:27 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/25 17:05:29 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:57:24 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,16 @@ void	*thread_routine(void *my_data)
 	self = pthread_self();
 	while (philo && philo->next && self != philo->tid)
 		philo = philo->next;
+	if (!philo)
+		return (NULL);
 	while (philo->alive == 1)
 	{
 		philo_sleep(data);
-		printf("%ld time has passed, the death time is %ld\n", get_time(data), data->time_die.tv_usec / 1000);
 		if ((unsigned long)(data->time_die.tv_usec)/1000 <= (get_time(data)))
 		{
 			philo->alive = 0;
-			printf("Out of time\n");
+			printf("%06ld %i died\n", get_time(data), philo->indice);
+			pthread_join(data->philo->tid, NULL);
 			return (NULL);
 		}
 	}
@@ -72,7 +74,7 @@ int	thread_end(t_data *data)
 		if (data->philo->alive == 1)
 		{
 			pthread_join(data->philo->tid, NULL);
-			printf("%06ld %ld died\n", get_time(data), data->philo->tid);
+			// printf("%06ld %i died\n", get_time(data), data->philo->indice);
 			data->philo->alive = 0;
 		}
 		data->philo = data->philo->next;

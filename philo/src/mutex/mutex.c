@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:18:19 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/23 16:52:29 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:25:57 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_fork	*create_fork(int size, int indice)
 		pthread_mutex_init(&mutex, NULL);
 		fork->fork = mutex;
 		fork->indice = indice;
-		fork->next = create_fork(size - 1, indice + 1);
+		fork->next = create_fork(size - 1, indice - 1);
 		if (fork->next == NULL && (size -1) > 0)
 			return (free(fork), NULL);
 	}
