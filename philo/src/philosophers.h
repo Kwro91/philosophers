@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:46:53 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/23 16:51:51 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:31:16 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,21 @@ typedef struct s_data
 }	t_data;
 
 //Philo.c
-void	philo(char **av);
+void				philo(char **av);
 //Thread
-t_philo	*create_philo(t_data *data, int size, int indice);
-void	*thread_routine(void *data);
-int		thread_end(t_data *data);
-void	philo_sleep(t_data *data);
+t_philo				*create_philo(t_data *data, int size, int indice);
+void				*thread_routine(void *data);
+int					thread_end(t_data *data);
+void				philo_sleep(t_data *data);
 //Mutex
-t_fork	*create_fork(int size, int indice);
+t_fork				*create_fork(int size, int indice);
 //Time
-int		setup_time(t_data *data);
+int					setup_time(t_data *data);
+unsigned long		get_time(t_data *data);
 //Verif
-int		is_only_number(char **av);
-void	convert_all(t_data *data, char **av);
-void	convert_die(t_data *data, char *time);
-void	convert_eat(t_data *data, char *time);
-void	convert_sleep(t_data *data, char *time);
-char	*invert_tab(char *tab);
+int					is_only_number(char **av);
+void				convert_all(t_data *data, char **av);
+int					convert_milli_micro(char *time);
+int					ft_atoi(char *str);
 
 #endif

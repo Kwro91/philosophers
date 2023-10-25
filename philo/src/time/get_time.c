@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert.c                                          :+:      :+:    :+:   */
+/*   get_time.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/23 15:00:48 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/25 16:32:54 by besalort         ###   ########.fr       */
+/*   Created: 2023/10/25 15:43:30 by besalort          #+#    #+#             */
+/*   Updated: 2023/10/25 17:04:33 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-void	convert_all(t_data *data, char **av)
+unsigned long	get_time(t_data *data)
 {
-	data->time_die.tv_usec = convert_milli_micro(av[2]);
-	data->time_eat.tv_usec = convert_milli_micro(av[3]);
-	data->time_sleep.tv_usec = convert_milli_micro(av[4]);
-}
+	unsigned long time;
 
-int	convert_milli_micro(char *time)
-{
-	int		count;
 
-	count = ft_atoi(time);
-	count *= 1000;
-	return (count);
+	gettimeofday(&data->stop_time, NULL);
+	time = (data->stop_time.tv_sec - data->start_time.tv_sec) * 1000
+		+ (data->stop_time.tv_usec - data->start_time.tv_usec) / 1000;
+	return (time);
 }

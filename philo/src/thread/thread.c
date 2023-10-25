@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:03:27 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/23 17:30:19 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:05:29 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,25 @@ t_philo	*create_philo(t_data *data, int size, int indice)
 void	*thread_routine(void *my_data)
 {
 	t_data			*data;
-	struct timeval	actualtime;
+	pthread_t		self;
+	t_philo			*philo;
 
 	data = (t_data *)my_data;
-	philo_sleep(data);
-	printf("Je fonctionne\n");
-	gettimeofday(&actualtime, NULL);
-	if (data->time_die.tv_usec
-		<= (actualtime.tv_usec - data->start_time.tv_usec))
-		return (NULL);
+	philo = data->philo;
+	self = pthread_self();
+	while (philo && philo->next && self != philo->tid)
+		philo = philo->next;
+	while (philo->alive == 1)
+	{
+		philo_sleep(data);
+		printf("%ld time has passed, the death time is %ld\n", get_time(data), data->time_die.tv_usec / 1000);
+		if ((unsigned long)(data->time_die.tv_usec)/1000 <= (get_time(data)))
+		{
+			philo->alive = 0;
+			printf("Out of time\n");
+			return (NULL);
+		}
+	}
 	return (NULL);
 }
 
@@ -62,7 +72,7 @@ int	thread_end(t_data *data)
 		if (data->philo->alive == 1)
 		{
 			pthread_join(data->philo->tid, NULL);
-			printf("Le philosophe %i meurt\n", data->philo->indice);
+			printf("%06ld %ld died\n", get_time(data), data->philo->tid);
 			data->philo->alive = 0;
 		}
 		data->philo = data->philo->next;
