@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:34:40 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/25 17:48:28 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:53:39 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ void	philo(char **av)
 	if (is_only_number(av) != 1)
 		exit(0);
 	convert_all(&data, av);
-	data.fork = create_fork(atoi(av[1]), indice);
 	setup_time(&data);
-	data.philo = create_philo(&data, atoi(av[1]), indice);
-	thread_end(&data);
+	data.philo = create_philo(&data, ft_atoi(av[1]), indice);
+	while (check_end(&data) != 1)
+	{
+		usleep(data.time_die.tv_usec);
+	}
 }
 
 int	main(int ac, char **av)
