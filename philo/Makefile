@@ -22,6 +22,7 @@ VERIF = verif/
 SRCS = $(SRC)philo.c \
 	$(SRC)$(THREAD)thread.c \
 	$(SRC)$(THREAD)action.c \
+	$(SRC)$(THREAD)end_thread.c \
 	$(SRC)$(MUTEX)mutex.c \
 	$(SRC)$(TIME)time.c \
 	$(SRC)$(TIME)get_time.c \

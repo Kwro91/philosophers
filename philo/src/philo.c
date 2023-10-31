@@ -6,13 +6,25 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:34:40 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/27 17:53:39 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:28:32 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	philo(char **av)
+void	exit_philo(t_data *data)
+{
+	t_philo *tmp;
+	
+	tmp = data->philo;
+	while (tmp)
+	{
+		pthread_join(tmp->tid, NULL);
+		tmp = tmp->next;
+	}
+}
+
+void	philo(int ac, char **av)
 {
 	t_data	data;
 	int		indice;
@@ -22,12 +34,11 @@ void	philo(char **av)
 	if (is_only_number(av) != 1)
 		exit(0);
 	convert_all(&data, av);
+	max_meal(&data, ac, av);
 	setup_time(&data);
+	init_all(&data);
 	data.philo = create_philo(&data, ft_atoi(av[1]), indice);
-	while (check_end(&data) != 1)
-	{
-		usleep(data.time_die.tv_usec);
-	}
+	check_end(&data);
 }
 
 int	main(int ac, char **av)
@@ -41,5 +52,5 @@ int	main(int ac, char **av)
 		return (0);
 	}
 	else
-		philo(av);
+		philo(ac, av);
 }
