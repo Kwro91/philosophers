@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:46:53 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/31 17:28:14 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:34:24 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 	int				alive;
 	int				meal;
 	int				meal_max;
+	int				philosophers;
 	void			*next;
 }	t_philo;
 
@@ -53,6 +54,7 @@ typedef struct s_data
 	struct timeval	start_time;
 	struct timeval	stop_time;
 	int				meal_max;
+	int				philosophers;
 }	t_data;
 
 //Philo.c
@@ -67,6 +69,7 @@ int					check_end(t_data *data);
 void				print_action(char *action, t_philo *philo);
 void				philo_sleep(t_philo *philo);
 void				philo_eat(t_philo *philo);
+void				philo_think(t_philo *philo);
 //Mutex
 void				init_all(t_data *data);
 void				get_fork(t_data *data, t_philo *philo, int indice);

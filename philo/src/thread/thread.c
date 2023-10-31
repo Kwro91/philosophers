@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:03:27 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/31 17:29:04 by besalort         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:34:37 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_philo	*create_philo(t_data *data, int size, int indice)
 		philo->alive = 1;
 		philo->meal = 0;
 		philo->meal_max = data->meal_max;
+		philo->philosophers = data->philosophers;
 		pthread_mutex_init(&philo->eating, NULL);
 		if (pthread_create(&philo->tid, NULL, thread_routine,
 				(void *)philo) != 0)
@@ -63,17 +64,16 @@ void	*thread_routine(void *my_philo)
 		usleep(15000);
 	while (philo->alive == 1)
 	{
+		if ((unsigned long)(philo->time.time_die.tv_usec)/1000 <= (get_meal_time(philo)))
+		{
+			philo->alive = 0;
+			return (NULL);
+		}
 		if (philo->meal_max > 0 && philo->meal >= philo->meal_max)
 			return (NULL);
 		philo_eat(philo);
 		philo_sleep(philo);
-		print_action("is thinking", philo);
-		if ((unsigned long)(philo->time.time_die.tv_usec)/1000 <= (get_meal_time(philo)))
-		{
-			philo->alive = 0;
-			print_action("died", philo);
-			return (NULL);
-		}
+		philo_think(philo);
 	}
 	return (NULL);
 }
