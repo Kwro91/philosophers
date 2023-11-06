@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:03:27 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/31 18:34:37 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/06 17:52:04 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,6 @@ t_philo	*create_philo(t_data *data, int size, int indice)
 	return (philo);
 }
 
-	//Il faut :
-	// -CHECKER AVANT CHAQUE ACTION QUE LE PHILO EST EN VIE POUR FAIRE L'ACTION
-	// -Faire en sorte que les actions se refassent tant qu'ils ne sont pas morts
-	// -Ajouter la possibilite de manger un certain nombre de fois max avant de quitter
 void	*thread_routine(void *my_philo)
 {
 	t_philo	*philo;
@@ -62,13 +58,13 @@ void	*thread_routine(void *my_philo)
 		return (NULL);
 	if (philo->indice %2)
 		usleep(15000);
-	while (philo->alive == 1)
+	while (philo->alive != 0)
 	{
-		if ((unsigned long)(philo->time.time_die.tv_usec)/1000 <= (get_meal_time(philo)))
-		{
-			philo->alive = 0;
-			return (NULL);
-		}
+		// if (check_out_time(philo) == 1)
+		// {
+		// 	philo->alive = 0;
+		// 	return (NULL);
+		// }
 		if (philo->meal_max > 0 && philo->meal >= philo->meal_max)
 			return (NULL);
 		philo_eat(philo);

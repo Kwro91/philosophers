@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:46:53 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/31 18:34:24 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:13:40 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ typedef struct s_times
 typedef struct s_philo
 {
 	pthread_t		tid;
-	pthread_mutex_t l_fork;
-	pthread_mutex_t r_fork;
+	pthread_mutex_t *l_fork;
+	pthread_mutex_t *r_fork;
 	pthread_mutex_t eating;
 	t_times			time;
 	int				indice;
@@ -66,6 +66,7 @@ void				*thread_routine(void *data);
 void				end_thread(t_data *data);
 int					check_all_ate(t_data *data);
 int					check_end(t_data *data);
+int					check_out_time(t_philo *philo);
 void				print_action(char *action, t_philo *philo);
 void				philo_sleep(t_philo *philo);
 void				philo_eat(t_philo *philo);
