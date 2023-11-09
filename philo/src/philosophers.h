@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:46:53 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/06 15:13:40 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:24:14 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ typedef struct s_times
 typedef struct s_philo
 {
 	pthread_t		tid;
+	pthread_mutex_t	*print;
 	pthread_mutex_t *l_fork;
 	pthread_mutex_t *r_fork;
+	pthread_mutex_t	*is_dead;
 	pthread_mutex_t eating;
 	t_times			time;
 	int				indice;
@@ -41,6 +43,7 @@ typedef struct s_philo
 	int				meal;
 	int				meal_max;
 	int				philosophers;
+	int				*dead;
 	void			*next;
 }	t_philo;
 
@@ -48,12 +51,15 @@ typedef struct s_data
 {
 	t_philo			*philo;
 	pthread_mutex_t	fork[200];
+	pthread_mutex_t	print;
+	pthread_mutex_t is_dead;
 	struct timeval	time_die;
 	struct timeval	time_eat;
 	struct timeval	time_sleep;
 	struct timeval	start_time;
 	struct timeval	stop_time;
 	int				meal_max;
+	int				dead;
 	int				philosophers;
 }	t_data;
 
@@ -63,7 +69,7 @@ void				exit_philo(t_data *data);
 //Thread
 t_philo				*create_philo(t_data *data, int size, int indice);
 void				*thread_routine(void *data);
-void				end_thread(t_data *data);
+void				end_thread(t_data *data, int indice);
 int					check_all_ate(t_data *data);
 int					check_end(t_data *data);
 int					check_out_time(t_philo *philo);

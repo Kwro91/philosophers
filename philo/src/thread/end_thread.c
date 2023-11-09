@@ -6,13 +6,13 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:52:34 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/06 17:57:57 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/09 18:00:10 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-void	end_thread(t_data *data)
+void	end_thread(t_data *data, int indice)
 {
 	t_philo		*tmp;
 	int			i;
@@ -26,10 +26,15 @@ void	end_thread(t_data *data)
 	}
 	while (tmp)
 	{
-		printf("On fais mourir %i, alive = %i\n", tmp->indice, tmp->alive);
+		tmp->alive = 0;
+		if (tmp->indice == indice)
+			printf("%06ld %i died\n", get_time(tmp), tmp->indice + 1);
+		tmp = tmp->next;
+	}
+	tmp = data->philo;
+	while (tmp)
+	{
 		pthread_join(tmp->tid, NULL);
-		if (tmp->alive == 0)
-			print_action("died", tmp);
 		tmp = tmp->next;
 	}
 }
@@ -37,32 +42,37 @@ void	end_thread(t_data *data)
 int	check_all_ate(t_data *data)
 {
 	t_philo	*tmp;
-	int		philo_max;
+	int		count;
 
 	tmp = data->philo;
-	philo_max = 0;
+	count = 0;
 	if (data->meal_max == -1)
 		return (0);
 	while (tmp)
 	{
-		if (tmp->meal < tmp->meal_max)
+		if (tmp->meal >= tmp->meal_max)
 		{
-			philo_max++;
-			if (philo_max == data->philosophers)
-				return (0);
+			count++;
+			if (count == data->philosophers)
+				return (1);
 		}
 		tmp = tmp->next;
 	}
-	return (1);
+	return (0);
 }
 
 int	check_out_time(t_philo *philo)
 {
+	pthread_mutex_lock(philo->is_dead);
 	if ((unsigned long)philo->time.time_die.tv_usec / 1000 <= get_meal_time(philo))
 	{
+		*philo->dead = 1;
+		pthread_mutex_unlock(philo->is_dead);
 		philo->alive = 0;
 		return (1);
 	}
+	else
+		pthread_mutex_unlock(philo->is_dead);
 	return (0);
 }
 
@@ -77,16 +87,9 @@ int	check_end(t_data *data)
 		{
 			pthread_mutex_lock(&tmp->eating);
 			if (check_out_time(tmp) == 1)
-			{
-				printf("%i run out of time\n", tmp->indice);
-				return (end_thread(data), 1);
-			}
-			// printf("%06ld / 1000 <= %06ld\n", (unsigned long)data->time_die.tv_usec, get_meal_time(tmp));
+				return (end_thread(data, tmp->indice), 1);
 			if (tmp->alive == 0 || check_all_ate(data) == 1)
-			{
-				printf("%i est mort (alive = %i) ou trop mange (%i / %i )\n", tmp->indice, tmp->alive, tmp->meal, tmp->meal_max);
-				return (end_thread(data), 1);
-			}
+				return (end_thread(data, -1), 1);
 			pthread_mutex_unlock(&tmp->eating);
 			tmp = tmp->next;
 		}
