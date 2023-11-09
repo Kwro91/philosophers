@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:52:34 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/09 19:05:17 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/09 19:49:25 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	end_thread(t_data *data, int indice)
 
 	tmp = data->philo;
 	i = 0;
-	while (i < 200)
+	while (i < data->philosophers - 1)
 	{
 		pthread_mutex_destroy(&data->fork[i]);
 		i++;

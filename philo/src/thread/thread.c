@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:03:27 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/09 19:18:32 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/09 19:37:38 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*thread_routine(void *my_philo)
 		return (NULL);
 	// if (philo->indice %2)
 	// 	usleep(1500);
-	while (philo->alive != 0)
+	while (philo->dead == 0)
 	{
 		if (philo->philosophers == 1)
 		{

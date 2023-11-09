@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:28:16 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/09 19:18:10 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/09 19:27:24 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void	philo_sleep(t_philo *philo)
 
 void	philo_take_fork(t_philo *philo)
 {
-	// pthread_mutex_lock(philo->is_dead);
+	pthread_mutex_lock(philo->is_dead);
 	if (*philo->dead == 0)
 	{
-		// pthread_mutex_unlock(philo->is_dead);
+		pthread_mutex_unlock(philo->is_dead);
 		if (philo->indice % 2)
 			pthread_mutex_lock(philo->l_fork);
 		else
@@ -50,8 +50,8 @@ void	philo_take_fork(t_philo *philo)
 			pthread_mutex_lock(philo->l_fork);
 		print_action("has taken a fork", philo);
 	}
-	// else
-		// pthread_mutex_unlock(philo->is_dead);
+	else
+		pthread_mutex_unlock(philo->is_dead);
 }
 
 void	philo_eat(t_philo *philo)
