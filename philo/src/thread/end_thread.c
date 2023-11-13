@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:52:34 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/13 15:14:19 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:23:37 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	check_all_ate(t_data *data)
 			pthread_mutex_lock(tmp->is_dead);
 			if (count == data->philosophers)
 			{
-				printf("tous ont mange\n");
 				*tmp->dead = 1;
 				pthread_mutex_unlock(tmp->is_dead);
 				return (1);

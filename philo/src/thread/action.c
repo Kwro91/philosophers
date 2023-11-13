@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:28:16 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/13 15:19:05 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:52:14 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,15 @@ void	philo_eat(t_philo *philo)
 		pthread_mutex_unlock(philo->is_dead);
 		pthread_mutex_lock(&philo->eating);
 		gettimeofday(&philo->time.last_meal, NULL);
-		philo->meal += 1;
 		pthread_mutex_unlock(&philo->eating);
 		print_action("is eating", philo);
 		usleep(philo->time.time_eat.tv_usec);
 	}
 	else
 		pthread_mutex_unlock(philo->is_dead);
+	pthread_mutex_lock(&philo->eating);
+	philo->meal += 1;
+	pthread_mutex_unlock(&philo->eating);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
 }
