@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread.c                                           :+:      :+:    :+:   */
+/*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 15:03:27 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/13 17:35:22 by besalort         ###   ########.fr       */
+/*   Created: 2023/11/13 16:43:32 by besalort          #+#    #+#             */
+/*   Updated: 2023/11/13 17:05:28 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-void	*thread_routine(void *my_philo)
+int		check_values(t_data *data, char **av)
 {
-	t_philo	*philo;
+	int	i;
+	int	nb;
 
-	philo = (t_philo *)my_philo;
-	if (!philo)
-		return (NULL);
-	while (*philo->dead == 0)
+	i = 1;
+	nb = 0;
+	(void)data;
+	while (av[i])
 	{
-		if (philo->philosophers == 1)
-		{
-			usleep(philo->time.time_die.tv_usec);
-			return (NULL);
-		}
-		philo_eat(philo);
-		philo_sleep(philo);
-		philo_think(philo);
+		nb = ft_atoi(av[i]);
+		if (nb < 1)
+			return (-1);
+		i++;
 	}
-	return (NULL);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 14:54:50 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/31 15:59:22 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/13 17:07:04 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ int	is_only_number(char **av)
 		while (av[i][j])
 		{
 			if (av[i][j] > '9' || av[i][j] < '0')
-			{
-				printf("Error arg\n");
 				return (0);
-			}
 			j++;
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:46:53 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/10 14:35:37 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/13 17:19:26 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ typedef struct s_data
 }	t_data;
 
 //Philo.c
-void				philo(int ac, char **av);
-void				exit_philo(t_data *data);
+int					philo(int ac, char **av);
+void				init_data(t_data *data, int ac, char **av);
+void				ft_msg(char *msg);
+int					exit_philo(t_data *data);
 //Thread
 t_philo				*create_philo(t_data *data, int size, int indice);
 void				*thread_routine(void *data);
@@ -85,6 +87,7 @@ int					setup_time(t_data *data);
 unsigned long		get_time(t_philo *philo);
 unsigned long		get_meal_time(t_philo *philo);
 //Verif
+int					check_values(t_data *data, char **av);
 int					is_only_number(char **av);
 void				max_meal(t_data *data, int ac, char **av);
 void				convert_all(t_data *data, char **av);

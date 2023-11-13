@@ -20,6 +20,7 @@ TIME = time/
 VERIF = verif/
 
 SRCS = $(SRC)philo.c \
+	$(SRC)ft_msg.c \
 	$(SRC)$(THREAD)thread.c \
 	$(SRC)$(THREAD)init.c \
 	$(SRC)$(THREAD)action.c \
@@ -27,6 +28,7 @@ SRCS = $(SRC)philo.c \
 	$(SRC)$(MUTEX)mutex.c \
 	$(SRC)$(TIME)time.c \
 	$(SRC)$(TIME)get_time.c \
+	$(SRC)$(VERIF)check.c \
 	$(SRC)$(VERIF)arg_verif.c \
 	$(SRC)$(VERIF)convert.c \
 	$(SRC)$(VERIF)ft_atoi.c \
