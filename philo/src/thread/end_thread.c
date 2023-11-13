@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:52:34 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/09 19:49:25 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:14:19 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ void	end_thread(t_data *data, int indice)
 
 	tmp = data->philo;
 	i = 0;
-	while (i < data->philosophers - 1)
-	{
-		pthread_mutex_destroy(&data->fork[i]);
-		i++;
-	}
 	while (tmp)
 	{
 		tmp->alive = 0;
@@ -37,6 +32,14 @@ void	end_thread(t_data *data, int indice)
 		pthread_join(tmp->tid, NULL);
 		tmp = tmp->next;
 	}
+	pthread_mutex_destroy(&data->is_dead);
+	pthread_mutex_destroy(&data->print);
+	while (i < data->philosophers - 1)
+	{
+		pthread_mutex_destroy(&data->fork[i]);
+		i++;
+	}
+	free(data->fork);
 }
 
 int	check_all_ate(t_data *data)
@@ -53,8 +56,16 @@ int	check_all_ate(t_data *data)
 		if (tmp->meal >= tmp->meal_max)
 		{
 			count++;
+			pthread_mutex_lock(tmp->is_dead);
 			if (count == data->philosophers)
+			{
+				printf("tous ont mange\n");
+				*tmp->dead = 1;
+				pthread_mutex_unlock(tmp->is_dead);
 				return (1);
+			}
+			else
+				pthread_mutex_unlock(tmp->is_dead);
 		}
 		tmp = tmp->next;
 	}
@@ -64,11 +75,12 @@ int	check_all_ate(t_data *data)
 int	check_out_time(t_philo *philo)
 {
 	pthread_mutex_lock(philo->is_dead);
+	// printf("%06ld last meal, %i = dead\n", get_meal_time(philo), *philo->dead);
 	if ((unsigned long)philo->time.time_die.tv_usec / 1000 <= get_meal_time(philo))
 	{
 		*philo->dead = 1;
-		pthread_mutex_unlock(philo->is_dead);
 		philo->alive = 0;
+		pthread_mutex_unlock(philo->is_dead);
 		return (1);
 	}
 	else
@@ -87,10 +99,17 @@ int	check_end(t_data *data)
 		{
 			pthread_mutex_lock(&tmp->eating);
 			if (check_out_time(tmp) == 1)
+			{
+				pthread_mutex_unlock(&tmp->eating);
 				return (end_thread(data, tmp->indice), 1);
-			if (tmp->alive == 0 || check_all_ate(data) == 1)
+			}
+			else if (*tmp->dead == 1 || check_all_ate(data) == 1)
+			{
+				pthread_mutex_unlock(&tmp->eating);
 				return (end_thread(data, -1), 1);
-			pthread_mutex_unlock(&tmp->eating);
+			}
+			else
+				pthread_mutex_unlock(&tmp->eating);
 			tmp = tmp->next;
 		}
 	}

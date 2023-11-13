@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:34:40 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/09 17:44:09 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/10 14:38:26 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	exit_philo(t_data *data)
 	while (data->philo)
 	{
 		tmp = data->philo;
+		pthread_mutex_destroy(&tmp->eating);
 		data->philo = data->philo->next;
 		free(tmp);
 	}
@@ -39,13 +40,14 @@ void	philo(int ac, char **av)
 	data = (t_data){};
 	indice = 0;
 	if (is_only_number(av) != 1)
-		exit(0);
+		return ;
 	init_data(&data);
 	convert_all(&data, av);
 	max_meal(&data, ac, av);
 	setup_time(&data);
 	data.philosophers = ft_atoi(av[1]);
-	init_all(&data);
+	if (init_fork(&data) == -1)
+		return ;
 	data.philo = create_philo(&data, data.philosophers, indice);
 	check_end(&data);
 	exit_philo(&data);

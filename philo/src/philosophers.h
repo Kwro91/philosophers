@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:46:53 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/09 17:24:14 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/10 14:35:37 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_philo
 typedef struct s_data
 {
 	t_philo			*philo;
-	pthread_mutex_t	fork[200];
+	pthread_mutex_t	*fork;
 	pthread_mutex_t	print;
 	pthread_mutex_t is_dead;
 	struct timeval	time_die;
@@ -78,7 +78,7 @@ void				philo_sleep(t_philo *philo);
 void				philo_eat(t_philo *philo);
 void				philo_think(t_philo *philo);
 //Mutex
-void				init_all(t_data *data);
+int					init_fork(t_data *data);
 void				get_fork(t_data *data, t_philo *philo, int indice);
 //Time
 int					setup_time(t_data *data);

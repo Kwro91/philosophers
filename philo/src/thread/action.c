@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:28:16 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/09 19:27:24 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:19:05 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ void	philo_eat(t_philo *philo)
 		pthread_mutex_unlock(philo->is_dead);
 		pthread_mutex_lock(&philo->eating);
 		gettimeofday(&philo->time.last_meal, NULL);
+		philo->meal += 1;
 		pthread_mutex_unlock(&philo->eating);
 		print_action("is eating", philo);
 		usleep(philo->time.time_eat.tv_usec);
-		philo->meal += 1;
 	}
 	else
 		pthread_mutex_unlock(philo->is_dead);
@@ -76,12 +76,5 @@ void	philo_eat(t_philo *philo)
 
 void	philo_think(t_philo *philo)
 {
-	pthread_mutex_lock(philo->is_dead);
-	if (philo->dead == 0)
-	{
-		pthread_mutex_unlock(philo->is_dead);
-		print_action("is thinking", philo);
-	}
-	else
-		pthread_mutex_unlock(philo->is_dead);
+	print_action("is thinking", philo);
 }
