@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:52:34 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/13 17:48:13 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/14 21:24:02 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,10 @@ void	end_thread(t_data *data, int indice)
 
 	tmp = data->philo;
 	i = 0;
-	while (tmp)
-	{
-		tmp->alive = 0;
-		if (tmp->indice == indice)
-			printf("%06ld %i died\n", get_time(tmp), tmp->indice + 1);
+	while (i < indice && tmp)
 		tmp = tmp->next;
-	}
+	if (tmp && tmp->indice == indice)
+		printf("%06ld %i died\n", get_time(tmp), tmp->indice + 1);
 	tmp = data->philo;
 	while (tmp)
 	{
@@ -74,8 +71,7 @@ int	check_all_ate(t_data *data)
 int	check_out_time(t_philo *philo)
 {
 	pthread_mutex_lock(philo->is_dead);
-	// printf("%06ld last meal, %i = dead\n", get_meal_time(philo), *philo->dead);
-	if ((unsigned long)philo->time.time_die.tv_usec / 1000 <= get_meal_time(philo))
+	if (philo->time.time_die / 1000 <= get_meal_time(philo))
 	{
 		*philo->dead = 1;
 		philo->alive = 0;
@@ -90,9 +86,12 @@ int	check_out_time(t_philo *philo)
 int	check_end(t_data *data)
 {
 	t_philo		*tmp;
+	int			count;
 
-	while (1)
+	count = 0;
+	while (count != data->philosophers)
 	{
+		count = 0;
 		tmp = data->philo;
 		while (tmp)
 		{
@@ -102,15 +101,14 @@ int	check_end(t_data *data)
 				pthread_mutex_unlock(&tmp->eating);
 				return (end_thread(data, tmp->indice), 1);
 			}
-			else if (*tmp->dead == 1 || check_all_ate(data) == 1)
-			{
-				pthread_mutex_unlock(&tmp->eating);
-				return (end_thread(data, -1), 1);
-			}
-			else
-				pthread_mutex_unlock(&tmp->eating);
+			else if (data->meal_max != -1 && tmp->meal >= tmp->meal_max)
+				count++;
+			pthread_mutex_unlock(&tmp->eating);
 			tmp = tmp->next;
 		}
 	}
-	return (0);
+	pthread_mutex_lock(&data->is_dead);
+	data->dead = 1;
+	pthread_mutex_unlock(&data->is_dead);
+	return (end_thread(data, -1), 1);
 }

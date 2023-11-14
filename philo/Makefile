@@ -24,6 +24,7 @@ SRCS = $(SRC)philo.c \
 	$(SRC)$(THREAD)thread.c \
 	$(SRC)$(THREAD)init.c \
 	$(SRC)$(THREAD)action.c \
+	$(SRC)$(THREAD)sleep_time.c \
 	$(SRC)$(THREAD)end_thread.c \
 	$(SRC)$(MUTEX)mutex.c \
 	$(SRC)$(TIME)time.c \

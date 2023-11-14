@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:34:40 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/13 17:23:22 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/14 21:14:43 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	philo(int ac, char **av)
 	data = (t_data){};
 	indice = 0;
 	if (is_only_number(av) != 1 || check_values(&data, av) != 0)
-		return (ft_msg("Error: Wrong amount of arguments"), -1);
+		return (ft_msg("Error: Wrong arguments"), -1);
 	init_data(&data, ac, av);
 	setup_time(&data);
 	data.philosophers = ft_atoi(av[1]);
@@ -62,7 +62,7 @@ int	main(int ac, char **av)
 		printf("./philo number_of_philosophers time_to_die ");
 		printf("time_to_eat time_to_sleep ");
 		printf("[number_of_time_a_philosopher_should_eat]\n");
-		return (-1);
+		return (1);
 	}
 	else
 		return (philo(ac, av));

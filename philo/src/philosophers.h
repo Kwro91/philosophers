@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:46:53 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/13 17:19:26 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/14 19:02:00 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ typedef struct s_times
 	struct timeval	start;
 	struct timeval	cmp;
 	struct timeval	last_meal;
-	struct timeval	time_die;
-	struct timeval	time_eat;
-	struct timeval	time_sleep;
+	unsigned long	time_die;
+	unsigned long	time_eat;
+	unsigned long	time_sleep;
 }	t_times;
 
 typedef struct s_philo
@@ -53,9 +53,9 @@ typedef struct s_data
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print;
 	pthread_mutex_t is_dead;
-	struct timeval	time_die;
-	struct timeval	time_eat;
-	struct timeval	time_sleep;
+	unsigned long	time_die;
+	unsigned long	time_eat;
+	unsigned long	time_sleep;
 	struct timeval	start_time;
 	struct timeval	stop_time;
 	int				meal_max;
@@ -79,6 +79,8 @@ void				print_action(char *action, t_philo *philo);
 void				philo_sleep(t_philo *philo);
 void				philo_eat(t_philo *philo);
 void				philo_think(t_philo *philo);
+void				sleep_time(t_philo *philo, unsigned long sleep);
+unsigned long		get_now_time(void);
 //Mutex
 int					init_fork(t_data *data);
 void				get_fork(t_data *data, t_philo *philo, int indice);
@@ -91,7 +93,7 @@ int					check_values(t_data *data, char **av);
 int					is_only_number(char **av);
 void				max_meal(t_data *data, int ac, char **av);
 void				convert_all(t_data *data, char **av);
-int					convert_milli_micro(char *time);
+unsigned long		convert_milli_micro(char *time);
 int					ft_atoi(char *str);
 
 #endif

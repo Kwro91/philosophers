@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:03:27 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/13 17:35:22 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/14 21:05:01 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*thread_routine(void *my_philo)
 	{
 		if (philo->philosophers == 1)
 		{
-			usleep(philo->time.time_die.tv_usec);
+			usleep(philo->time.time_die);
 			return (NULL);
 		}
 		philo_eat(philo);
