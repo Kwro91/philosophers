@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:46:53 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/14 19:02:00 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:47:03 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int					exit_philo(t_data *data);
 t_philo				*create_philo(t_data *data, int size, int indice);
 void				*thread_routine(void *data);
 void				end_thread(t_data *data, int indice);
-int					check_all_ate(t_data *data);
 int					check_end(t_data *data);
 int					check_out_time(t_philo *philo);
 void				print_action(char *action, t_philo *philo);
