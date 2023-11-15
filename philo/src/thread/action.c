@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:28:16 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/15 17:23:04 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/15 18:19:21 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	philo_think(t_philo *philo)
 
 	count = (philo->time.time_die -(philo->time.time_eat + philo->time.time_sleep));
 	print_action("is thinking", philo);
-	if (count > 0)
+	if (count > 0 && philo->philosophers % 2 != 0)
 		sleep_time(philo, count / 2);
 	
 }
