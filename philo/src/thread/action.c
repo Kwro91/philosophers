@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:28:16 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/14 19:35:56 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:23:04 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_action(char *action, t_philo *philo)
 {
 	pthread_mutex_lock(philo->is_dead);
 	if (*philo->dead != 1)
-		printf("%06ld %i %s\n", get_time(philo), philo->indice + 1, action);
+		printf("%ld %i %s\n", get_time(philo), philo->indice + 1, action);
 	pthread_mutex_unlock(philo->is_dead);
 }
 
@@ -78,5 +78,11 @@ void	philo_eat(t_philo *philo)
 
 void	philo_think(t_philo *philo)
 {
+	unsigned long	count;
+
+	count = (philo->time.time_die -(philo->time.time_eat + philo->time.time_sleep));
 	print_action("is thinking", philo);
+	if (count > 0)
+		sleep_time(philo, count / 2);
+	
 }

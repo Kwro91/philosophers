@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:52:34 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/14 21:24:02 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:14:27 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ void	end_thread(t_data *data, int indice)
 
 	tmp = data->philo;
 	i = 0;
-	while (i < indice && tmp)
+	while (tmp && indice != -1)
+	{
+		if (tmp && tmp->indice == indice)
+			printf("%ld %i died\n", get_time(tmp), tmp->indice + 1);	
 		tmp = tmp->next;
-	if (tmp && tmp->indice == indice)
-		printf("%06ld %i died\n", get_time(tmp), tmp->indice + 1);
+	}
 	tmp = data->philo;
 	while (tmp)
 	{
@@ -37,35 +39,6 @@ void	end_thread(t_data *data, int indice)
 		i++;
 	}
 	free(data->fork);
-}
-
-int	check_all_ate(t_data *data)
-{
-	t_philo	*tmp;
-	int		count;
-
-	tmp = data->philo;
-	count = 0;
-	if (data->meal_max == -1)
-		return (0);
-	while (tmp)
-	{
-		if (tmp->meal >= tmp->meal_max)
-		{
-			count++;
-			pthread_mutex_lock(tmp->is_dead);
-			if (count == data->philosophers)
-			{
-				*tmp->dead = 1;
-				pthread_mutex_unlock(tmp->is_dead);
-				return (1);
-			}
-			else
-				pthread_mutex_unlock(tmp->is_dead);
-		}
-		tmp = tmp->next;
-	}
-	return (0);
 }
 
 int	check_out_time(t_philo *philo)
