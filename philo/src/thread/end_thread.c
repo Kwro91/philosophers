@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:52:34 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/16 13:35:15 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:34:15 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,14 @@ void	end_thread(t_data *data, int indice)
 
 int	check_out_time(t_philo *philo)
 {
-	pthread_mutex_lock(philo->is_dead);
 	if (philo->time.time_die / 1000 <= get_meal_time(philo))
 	{
+		pthread_mutex_lock(philo->is_dead);
 		*philo->dead = 1;
 		philo->alive = 0;
 		pthread_mutex_unlock(philo->is_dead);
 		return (1);
 	}
-	else
-		pthread_mutex_unlock(philo->is_dead);
 	return (0);
 }
 
