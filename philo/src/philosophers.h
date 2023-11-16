@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:46:53 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/15 17:47:03 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/16 14:21:08 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ typedef struct s_philo
 {
 	pthread_t		tid;
 	pthread_mutex_t	*print;
-	pthread_mutex_t *l_fork;
-	pthread_mutex_t *r_fork;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*is_dead;
-	pthread_mutex_t eating;
+	pthread_mutex_t	eating;
 	t_times			time;
 	int				indice;
 	int				alive;
@@ -52,7 +52,7 @@ typedef struct s_data
 	t_philo			*philo;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print;
-	pthread_mutex_t is_dead;
+	pthread_mutex_t	is_dead;
 	unsigned long	time_die;
 	unsigned long	time_eat;
 	unsigned long	time_sleep;
@@ -65,7 +65,7 @@ typedef struct s_data
 
 //Philo.c
 int					philo(int ac, char **av);
-void				init_data(t_data *data, int ac, char **av);
+int					init_data(t_data *data, int ac, char **av);
 void				ft_msg(char *msg);
 int					exit_philo(t_data *data);
 //Thread

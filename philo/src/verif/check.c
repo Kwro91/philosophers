@@ -6,13 +6,13 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 16:43:32 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/13 17:05:28 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:29:03 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-int		check_values(t_data *data, char **av)
+int	check_values(t_data *data, char **av)
 {
 	int	i;
 	int	nb;

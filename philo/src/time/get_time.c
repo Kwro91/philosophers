@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:43:30 by besalort          #+#    #+#             */
-/*   Updated: 2023/10/31 16:10:06 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:32:32 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 unsigned long	get_time(t_philo *philo)
 {
-	unsigned long time;
+	unsigned long	time;
 
 	gettimeofday(&philo->time.cmp, NULL);
 	time = (philo->time.cmp.tv_sec - philo->time.start.tv_sec) * 1000
@@ -24,7 +24,7 @@ unsigned long	get_time(t_philo *philo)
 
 unsigned long	get_meal_time(t_philo *philo)
 {
-	unsigned long time;
+	unsigned long	time;
 
 	gettimeofday(&philo->time.cmp, NULL);
 	time = (philo->time.cmp.tv_sec - philo->time.last_meal.tv_sec) * 1000

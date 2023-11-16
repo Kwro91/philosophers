@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:52:34 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/15 17:14:27 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:35:15 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	end_thread(t_data *data, int indice)
 	while (tmp && indice != -1)
 	{
 		if (tmp && tmp->indice == indice)
-			printf("%ld %i died\n", get_time(tmp), tmp->indice + 1);	
+			printf("%ld %i died\n", get_time(tmp), tmp->indice + 1);
 		tmp = tmp->next;
 	}
 	tmp = data->philo;
@@ -56,6 +56,13 @@ int	check_out_time(t_philo *philo)
 	return (0);
 }
 
+void	make_dead(t_data *data)
+{
+	pthread_mutex_lock(&data->is_dead);
+	data->dead = 1;
+	pthread_mutex_unlock(&data->is_dead);
+}
+
 int	check_end(t_data *data)
 {
 	t_philo		*tmp;
@@ -80,8 +87,6 @@ int	check_end(t_data *data)
 			tmp = tmp->next;
 		}
 	}
-	pthread_mutex_lock(&data->is_dead);
-	data->dead = 1;
-	pthread_mutex_unlock(&data->is_dead);
+	make_dead(data);
 	return (end_thread(data, -1), 1);
 }

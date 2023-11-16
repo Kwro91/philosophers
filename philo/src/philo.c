@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:34:40 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/14 21:14:43 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/16 14:33:19 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	exit_philo(t_data *data)
 {
-	t_philo *tmp;
-	
+	t_philo	*tmp;
+
 	while (data->philo)
 	{
 		tmp = data->philo;
@@ -26,13 +26,19 @@ int	exit_philo(t_data *data)
 	return (0);
 }
 
-void	init_data(t_data *data, int ac, char **av)
+int	init_data(t_data *data, int ac, char **av)
 {
 	data->dead = 0;
-	pthread_mutex_init(&data->print, NULL);
-	pthread_mutex_init(&data->is_dead, NULL);
+	if (pthread_mutex_init(&data->print, NULL) != 0)
+		return (-1);
+	if (pthread_mutex_init(&data->is_dead, NULL) != 0)
+	{
+		pthread_mutex_destroy(&data->print);
+		return (-1);
+	}
 	convert_all(data, av);
 	max_meal(data, ac, av);
+	return (0);
 }
 
 int	philo(int ac, char **av)
@@ -44,12 +50,15 @@ int	philo(int ac, char **av)
 	indice = 0;
 	if (is_only_number(av) != 1 || check_values(&data, av) != 0)
 		return (ft_msg("Error: Wrong arguments"), -1);
-	init_data(&data, ac, av);
+	if (init_data(&data, ac, av) != 0)
+		return (ft_msg("Error: Mutex"), exit_philo(&data), -1);
 	setup_time(&data);
 	data.philosophers = ft_atoi(av[1]);
 	if (init_fork(&data) == -1)
-		return (ft_msg("Error: mutex problem"), -1);
+		return (ft_msg("Error: Mutex"), exit_philo(&data), -1);
 	data.philo = create_philo(&data, data.philosophers, indice);
+	if (!data.philo)
+		return (ft_msg("Error: Thread"), exit_philo(&data), -1);
 	check_end(&data);
 	return (exit_philo(&data));
 }

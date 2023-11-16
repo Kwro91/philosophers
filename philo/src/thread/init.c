@@ -6,7 +6,7 @@
 /*   By: besalort <besalort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:05:36 by besalort          #+#    #+#             */
-/*   Updated: 2023/11/09 17:47:31 by besalort         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:29:29 by besalort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void	fill_times(t_data *data, t_philo *philo)
 
 void	set_values(t_data *data, t_philo *philo)
 {
-		philo->alive = 1;
-		philo->dead = &data->dead;
-		philo->meal = 0;
-		philo->meal_max = data->meal_max;
-		philo->philosophers = data->philosophers;
-		philo->print = &data->print;
-		philo->is_dead = &data->is_dead;
-		pthread_mutex_init(&philo->eating, NULL);
+	philo->alive = 1;
+	philo->dead = &data->dead;
+	philo->meal = 0;
+	philo->meal_max = data->meal_max;
+	philo->philosophers = data->philosophers;
+	philo->print = &data->print;
+	philo->is_dead = &data->is_dead;
+	pthread_mutex_init(&philo->eating, NULL);
 }
 
 t_philo	*create_philo(t_data *data, int size, int indice)
